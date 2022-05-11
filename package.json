@@ -1,0 +1,19 @@
+{
+  "name": "ecos12-chat-backend",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "repository": "git@github.com:CamposCaio/ecos12-chat-backend.git",
+  "author": "CamposCaio <camposcaioh@gmail.com>",
+  "scripts": {
+    "start": "node -r dotenv/config src/index"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "helmet": "^5.0.2",
+    "morgan": "^1.10.0",
+    "ws": "^8.6.0"
+  }
+}
