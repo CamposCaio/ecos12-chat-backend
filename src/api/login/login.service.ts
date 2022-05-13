@@ -1,14 +1,10 @@
-const db = require('../../db')
+import { query } from '../../db.js'
 
-function getUser(req) {
-  const user = db.query(
+export function getUser(req: any) {
+  const user = query(
     `SELECT id, registry, nickname FROM Users WHERE registry=? AND password=?`,
     [req.registry, req.password]
   )
 
   return user[0]
-}
-
-module.exports = {
-  getUser,
 }
