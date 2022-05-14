@@ -1,10 +1,9 @@
-import { query } from '../../db.js'
+import { AppDataSource } from '../../data-source.js'
+import { Users } from '../users/users.entity.js'
+import { AuthenticateDto } from './login.dto.js'
 
-export function getUser(req: any) {
-  const user = query(
-    `SELECT id, registry, nickname FROM Users WHERE registry=? AND password=?`,
-    [req.registry, req.password]
-  )
+const userRepository = AppDataSource.getRepository(Users)
 
-  return user[0]
+export async function authenticateUser(data: AuthenticateDto) {
+  return await userRepository.findOneBy(data)
 }

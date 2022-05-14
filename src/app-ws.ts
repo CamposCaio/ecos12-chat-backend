@@ -1,11 +1,11 @@
 import WebSocket, { RawData, WebSocketServer } from 'ws'
 
-function onError(ws: WebSocket.WebSocket, err: Error) {
+function onError(_ws: WebSocket.WebSocket, err: Error) {
   console.error(`onError: ${err.message}`)
 }
 
 function onMessage(
-  ws: WebSocket.WebSocket,
+  _ws: WebSocket.WebSocket,
   data: RawData,
   server: WebSocket.Server
 ) {
@@ -41,5 +41,4 @@ export function wsserver(server: any) {
   wss.broadcast = broadcast
 
   console.log(`App Web Socket Server is running!`)
-  return wss
 }

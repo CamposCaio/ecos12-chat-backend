@@ -1,12 +1,15 @@
 import express from 'express'
 
-import { getUser } from './login.service.js'
+import { authenticateUser } from './login.service.js'
 
-export const router = express.Router()
+export const loginRouter = express.Router()
 
-router.post('/', function (req, res, next) {
+loginRouter.post('/', async function (req, res, next) {
   try {
-    res.json(getUser(req.body))
+    const user = await authenticateUser(req.body)
+    user
+      ? res.json(user)
+      : res.status(400).send('Invalid registry or password.')
   } catch (err) {
     if (err instanceof Error)
       console.error(`Error while getting user: `, err.message)
