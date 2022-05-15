@@ -1,4 +1,4 @@
 export interface AuthenticateDto {
-  registry: number
+  registry: string
   password: string
 }

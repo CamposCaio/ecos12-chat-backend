@@ -1,6 +1,6 @@
 import express from 'express'
-import { loginRouter } from './api/login/login.route'
-import { usersRouter } from './api/users/users.route'
+import { loginRouter } from './api/login/login.controller'
+import { usersRouter } from './api/users/users.controller'
 
 export const router = express.Router()
 

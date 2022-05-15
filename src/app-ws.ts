@@ -9,7 +9,9 @@ function onMessage(
   data: RawData,
   server: WebSocket.Server
 ) {
-  console.log(`onMessage: ${data.toString()}`)
+  const flatMessage = data.toString()
+  console.log(`onMessage: ${flatMessage}`)
+  if (flatMessage === '{}') return
   const message = JSON.parse(data.toString())
   const messageToSend = {
     ...message,

@@ -12,15 +12,18 @@ export class Users {
   id: number
 
   @Column({
-    type: 'integer',
+    type: 'text',
     unique: true,
   })
-  registry: number
+  registry: string
 
   @Column('text')
   nickname: string
 
-  @Column('text')
+  @Column({
+    type: 'text',
+    select: false,
+  })
   password: string
 
   @CreateDateColumn({

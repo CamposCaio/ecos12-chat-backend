@@ -1,11 +1,11 @@
 export interface CreateUserDto {
-  registry: number
+  registry: string
   nickname: string
   password: string
 }
 
 export interface UpdateUserDto {
-  registry: number
+  registry: string
   nickname?: string
   password?: string
 }
