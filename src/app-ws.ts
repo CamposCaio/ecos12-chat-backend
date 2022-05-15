@@ -10,9 +10,13 @@ function onMessage(
   server: WebSocket.Server
 ) {
   console.log(`onMessage: ${data.toString()}`)
+  const message = JSON.parse(data.toString())
+  const messageToSend = {
+    ...message,
+    timestamp: Date.now(),
+  }
   // @ts-ignore
-  server.broadcast(data.toString())
-  // ws.send(`recebido!`)
+  server.broadcast(JSON.stringify(messageToSend))
 }
 
 function onConnection(this: any, ws: WebSocket.WebSocket, _req: any) {
@@ -22,11 +26,11 @@ function onConnection(this: any, ws: WebSocket.WebSocket, _req: any) {
   console.log(`onConnection`)
 }
 
-function broadcast(this: any, jsonObject: any) {
+function broadcast(this: any, message: string) {
   if (!this.clients) return
   this.clients.forEach((client: any) => {
     if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify(jsonObject))
+      client.send(message)
     }
   })
 }
