@@ -1,5 +1,11 @@
 # ecos12-chat-backend
 
+# TO-DO
+
+- [ ] Return all online clients to client connection
+- [ ] Generate a JWT token for each client and send it to the client
+- [ ] Create groups router
+
 # Dependencies
 
 - Node.js

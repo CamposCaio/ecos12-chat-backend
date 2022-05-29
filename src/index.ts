@@ -1,5 +1,5 @@
 import { app } from './app.js'
-import { wsserver } from './app-ws.js'
+import { WebSocketManager } from './websocket/index.js'
 import { AppDataSource } from './data-source'
 
 AppDataSource.initialize()
@@ -7,7 +7,7 @@ AppDataSource.initialize()
     const server = app.listen(process.env.PORT || 3000, () => {
       console.log(`App Express is running!`)
     })
-    wsserver(server)
+    new WebSocketManager(server)
   })
   .catch((err) => {
     console.error(`Error on initialize AppDataSource: ${err}`)
