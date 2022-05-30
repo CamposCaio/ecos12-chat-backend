@@ -7,17 +7,16 @@ const userRepository = AppDataSource.getRepository(Users)
 
 export async function authenticateUser(data: AuthenticateDto) {
   const user = await userRepository.findOne({
-    select: ['id', 'registry', 'password', 'nickname'],
+    select: ['id', 'registry', 'password', 'nickname', 'token'],
     where: { registry: data.registry },
   })
   if (!user) throw new Error(`Invalid registry or password.`)
-  console.log(data.password)
-  console.log(user.password)
   const validPassword = bcrypt.compareSync(data.password, user.password)
   if (!validPassword) throw new Error(`Invalid registry or password.`)
   return {
     id: user.id,
     registry: user.registry,
     nickname: user.nickname,
+    token: user.token,
   }
 }

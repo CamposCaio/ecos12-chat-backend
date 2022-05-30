@@ -3,6 +3,7 @@ CREATE TABLE Users (
   registry INTEGER NOT NULL UNIQUE,
   nickname text NOT NULL,
   password text NOT NULL,
+  token text UNIQUE,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   deleted_at DATETIME

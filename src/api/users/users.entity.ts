@@ -26,6 +26,9 @@ export class Users {
   })
   password: string
 
+  @Column('text')
+  token: string
+
   @CreateDateColumn({
     type: 'datetime',
     default: () => 'CURRENT_TIMESTAMP',

@@ -1,13 +1,16 @@
 import { app } from './app.js'
-import { WebSocketManager } from './websocket/index.js'
+import { WebSocketManager } from './websocket/main.js'
 import { AppDataSource } from './data-source'
+
+export let webSocketManager: WebSocketManager
 
 AppDataSource.initialize()
   .then(() => {
-    const server = app.listen(process.env.PORT || 3000, () => {
-      console.log(`App Express is running!`)
+    const PORT = process.env.PORT ?? 3000
+    const server = app.listen(PORT, () => {
+      console.log(`App is running on port ${PORT}!`)
     })
-    new WebSocketManager(server)
+    webSocketManager = new WebSocketManager(server)
   })
   .catch((err) => {
     console.error(`Error on initialize AppDataSource: ${err}`)

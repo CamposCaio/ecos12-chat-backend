@@ -2,6 +2,7 @@ import { AppDataSource } from '../../data-source'
 import { CreateUserDto, UpdateUserDto } from './users.dto'
 import { Users } from './users.entity'
 import bcrypt from 'bcrypt'
+import uuid from 'uuid'
 
 const userRepository = AppDataSource.getRepository(Users)
 
@@ -9,6 +10,7 @@ export async function createUser(data: CreateUserDto) {
   if (await userRepository.findOneBy({ registry: data.registry }))
     throw new Error(`The user (registry = ${data.registry}) already exists.`)
   data.password = hash(data.password)
+  data.token = uuid.v1()
   return await userRepository.save(data)
 }
 
