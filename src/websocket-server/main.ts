@@ -1,14 +1,29 @@
 import { RawData, WebSocket, WebSocketServer, Server as WSServer } from 'ws'
 import { Server } from 'http'
-import { handleNewMessage } from './messages/messages.service'
-import { authenticate } from './authentication/authentication.service'
+import { AppController } from './app.controller'
+import { webSocketManager } from '../index'
+import { ClientDto } from './utils/client.dto'
+
+interface OnlineClient extends ClientDto {
+  socket: WebSocket
+}
 
 export class WebSocketManager {
   wsServer: WSServer
+  appController = new AppController()
+  private onlineClients: OnlineClient[] = []
 
   constructor(server: Server) {
     this.wsServer = new WebSocketServer({ server })
     this.wsServer.on('connection', this.onConnection.bind(this))
+  }
+
+  getOnlineClients() {
+    return this.onlineClients
+  }
+
+  setOnlineClients(clientDto: ClientDto, socket: WebSocket) {
+    this.onlineClients.push({ ...clientDto, socket })
   }
 
   onConnection(socket: WebSocket) {
@@ -19,21 +34,9 @@ export class WebSocketManager {
   }
 
   onMessage(this: WebSocket, data: RawData) {
-    const flatMessage = data.toString()
-    if (flatMessage === '{}') return // ping message
-    const dataObj = JSON.parse(flatMessage)
-    switch (dataObj?.type) {
-      case 'message':
-        handleNewMessage(this, dataObj.body)
-        break
-      case 'authentication':
-        authenticate(this, dataObj.body)
-        break
-      default:
-        throw new Error(
-          "Unknown type of message. Please, specify a property 'type' in the body."
-        )
-    }
+    const dataObj = JSON.parse(data.toString())
+    if (!dataObj?.keys().length) return // ping message
+    this.send(webSocketManager.appController.route(dataObj, this))
   }
 
   broadcast(message: string) {

@@ -1,4 +1,4 @@
-export interface AuthenticateDto {
+export interface LoginDto {
   registry: string
   password: string
 }

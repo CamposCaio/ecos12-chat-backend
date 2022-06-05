@@ -1,6 +1,6 @@
-import { app } from './app.js'
-import { WebSocketManager } from './websocket/main.js'
-import { AppDataSource } from './data-source'
+import { app } from './express.js'
+import { AppDataSource } from './typeorm.js'
+import { WebSocketManager } from './websocket-server/main.js'
 
 export let webSocketManager: WebSocketManager
 
