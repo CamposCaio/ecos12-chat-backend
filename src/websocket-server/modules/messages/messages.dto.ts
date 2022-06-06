@@ -1,4 +1,4 @@
-import { BaseWsDto } from '../../utils/base.dto'
+import { BaseWsDto } from '../../utils/dto/base.dto'
 
 export interface MessageDto extends BaseWsDto {
   id?: string

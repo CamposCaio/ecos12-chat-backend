@@ -18,6 +18,6 @@ export class BaseEntity {
   })
   updated_at: Date
 
-  @Column({ nullable: true })
+  @Column('datetime', { nullable: true })
   deleted_at: Date | null
 }

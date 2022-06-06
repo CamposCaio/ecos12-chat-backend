@@ -1,30 +1,28 @@
-import { LoginDto } from './login.dto.js'
+import { CreateLoginDto } from './dto/login.dto.js'
 import * as jwt from 'jsonwebtoken'
-import { UserDto } from '../users/users.dto.js'
-import { UsersService } from '../users/users.service.js'
 import { verifyPassword } from '../../utils/bcrypt.js'
-import { UserMapper } from '../users/user.mapper.js'
+import { User } from '../users/user.entity.js'
+import { userMapper, userService } from '../users/user.module.js'
 
 export class LoginService {
-  private usersService = new UsersService()
-  private userMapper = new UserMapper()
-
-  async login(data: LoginDto) {
+  async login(data: CreateLoginDto) {
     try {
-      const user = await this.usersService.find(data.registry)
+      const user = await userService.find(data.registry)
       verifyPassword(data.password, user.password)
-      const userDto = this.userMapper.entityToDto(user)
-      const token = this.generateToken(userDto)
-      return { ...userDto, token }
-    } catch {
-      throw new Error('Invalid registry or password.')
+      const token = this.generateToken(user)
+      return { user, token }
+    } catch (err) {
+      if (err instanceof Error) throw new Error(`Invalid registry or password.`)
     }
   }
 
-  private generateToken(user: UserDto) {
+  private generateToken(user: User) {
     if (!process.env?.JWT_KEY) throw new Error('JWT server error.')
     const privateKey = process.env.JWT_KEY
-    const token = jwt.sign(user, privateKey, { algorithm: 'RS256' })
+    const token = jwt.sign(userMapper.entityToDto(user), privateKey, {
+      expiresIn: '12h',
+    })
+
     if (!token) throw new Error(`Error while generating JWT.`)
     return token
   }

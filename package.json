@@ -5,12 +5,13 @@
   "repository": "git@github.com:CamposCaio/ecos12-chat-backend.git",
   "author": "CamposCaio <camposcaioh@gmail.com>",
   "scripts": {
-    "start": "node -r dotenv/config dist/index.js"
+    "start": "yarn tsc && node -r dotenv/config dist/main"
   },
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "better-sqlite3": "^7.5.1",
+    "class-transformer": "^0.5.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",

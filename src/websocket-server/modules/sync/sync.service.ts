@@ -1,25 +1,21 @@
 import { WebSocket } from 'ws'
 import { SyncDto } from './sync.dto'
-import * as jwt from 'jsonwebtoken'
-import { ClientDto } from '../../utils/client.dto'
-import { newError } from '../../utils/handlers'
-import { webSocketManager } from '../../../index'
+import { newError } from '../../utils/error.builder'
+import { webSocketManager } from '../../../main'
 import { MessagesService } from '../messages/messages.service'
+import { jwtManager } from '../../utils/jwt-manager'
 
 export class SyncService {
   private messagesService = new MessagesService()
 
   sync(data: SyncDto, socket: WebSocket) {
-    const client = this.authenticateToken(data?.token)
-    if (!client) return newError('Invalid token.', 400)
-    webSocketManager.setOnlineClients(client, socket)
-    return this.messagesService.getMessages(client.id, data.lastSyncTimestamp)
-  }
-
-  private authenticateToken(token: string | undefined) {
-    if (!token) return
-    if (!process.env?.JWT_KEY) return
-    const privateKey = process.env.JWT_KEY
-    return jwt.verify(token, privateKey) as ClientDto
+    if (!data.token) return newError('The token is required.', 400)
+    const clientDto = jwtManager.getPayload(data.token)
+    if (!clientDto) return newError('Invalid JWT.', 400)
+    webSocketManager.setOnlineClients(clientDto, socket, data.token)
+    return this.messagesService.getMessages(
+      clientDto.id,
+      data.lastSyncTimestamp
+    )
   }
 }

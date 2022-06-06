@@ -1,15 +1,9 @@
 import express from 'express'
 import { LoginController } from './login.controller'
+import { LoginService } from './login.service'
+import { LoginMapper } from './mapper/login.mapper'
 
 export const loginRouter = express.Router()
-
-const loginController = new LoginController()
-
-loginRouter.post('/', async (req, res, next) => {
-  try {
-    res.json(await loginController.login(req))
-  } catch (err) {
-    err instanceof Error && res.send(err.message)
-    next(err)
-  }
-})
+export const loginController = new LoginController(loginRouter)
+export const loginService = new LoginService()
+export const loginMapper = new LoginMapper()

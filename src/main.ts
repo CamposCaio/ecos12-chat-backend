@@ -1,6 +1,7 @@
 import { app } from './express.js'
 import { AppDataSource } from './typeorm.js'
-import { WebSocketManager } from './websocket-server/main.js'
+import { WebSocketManager } from './websocket-server/manager.js'
+import 'reflect-metadata'
 
 export let webSocketManager: WebSocketManager
 

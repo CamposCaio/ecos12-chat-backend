@@ -1,4 +1,4 @@
-import { ErrorDto } from './errors.dto'
+import { ErrorDto } from './dto/error.dto'
 
 export function newError(description: string, statusCode: number): ErrorDto {
   return {
