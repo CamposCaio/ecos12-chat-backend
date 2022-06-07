@@ -1,8 +1,9 @@
 import { MoreThanOrEqual } from 'typeorm'
 import { conversationService } from '../../../http-server/modules/conversations/conversation.module'
 import { Message } from '../../../entities/message.entity'
-import { messageRepository } from './message.module'
+import { messageMapper, messageRepository } from './message.module'
 import { newError } from '../../utils/error.builder'
+import { webSocketManager } from '../../../main'
 
 export class MessageService {
   async findByUser(userId: string, fromTimestamp = 0) {

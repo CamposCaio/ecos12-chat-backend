@@ -27,7 +27,7 @@ export class MessageMapper {
       senderRegistry: sender.registry,
       conversationId: message.conversationId,
       text: message.content,
-      timestamp: message.created_at.getTime(),
+      timestamp: Date.now(),
     }
   }
 }

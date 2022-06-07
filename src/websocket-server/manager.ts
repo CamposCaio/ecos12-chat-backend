@@ -72,10 +72,14 @@ export class WebSocketManager {
     )
     participants.forEach((participant) => {
       const onlineClient = this.onlineClients.find(
-        (onlineClient) => onlineClient.id === participant.id
+        (onlineClient) => onlineClient.id === participant.userId
       )
-      onlineClient &&
+
+      if (
+        onlineClient &&
         onlineClient.id !== messageDto.senderId &&
+        onlineClient.id === participant.userId
+      )
         onlineClient.socket.send(JSON.stringify(messageDto))
     })
 

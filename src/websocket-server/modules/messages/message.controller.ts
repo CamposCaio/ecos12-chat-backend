@@ -11,6 +11,6 @@ export class MessageController {
     if (message instanceof ErrorDto) return message
     const messageDto = await messageMapper.entityToDto(message)
     webSocketManager.broadcast(messageDto)
-    return messageDto
+    // return messageDto
   }
 }
