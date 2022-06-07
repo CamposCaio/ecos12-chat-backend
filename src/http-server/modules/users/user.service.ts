@@ -1,11 +1,17 @@
-import { User } from './user.entity'
+import { User } from '../../../entities/user.entity'
 import { hashPassword } from '../../utils/bcrypt'
 import { AppDataSource } from '../../../typeorm'
 
 export class UserService {
   private userRepository = AppDataSource.getRepository(User)
 
-  async find(registry: string) {
+  async find(id: string) {
+    const user = await this.userRepository.findOneBy({ id })
+    if (!user) throw new Error(`The id ${id} was not found.`)
+    return user
+  }
+
+  async findByRegistry(registry: string) {
     const user = await this.userRepository.findOneBy({ registry })
     if (!user) throw new Error(`The registry ${registry} was not found.`)
     return user
@@ -38,7 +44,7 @@ export class UserService {
   }
 
   async delete(registry: string) {
-    const user = this.find(registry)
+    const user = this.findByRegistry(registry)
     if (!user) throw new Error(`The registry ${registry} was not found.`)
     await this.userRepository.delete({ registry })
     return user

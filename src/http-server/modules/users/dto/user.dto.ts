@@ -1,4 +1,5 @@
 export interface UserDto {
+  id?: string
   registry: string
   nickname?: string
   password?: string

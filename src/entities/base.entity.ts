@@ -19,5 +19,5 @@ export class BaseEntity {
   updated_at: Date
 
   @Column('datetime', { nullable: true })
-  deleted_at: Date | null
+  deleted_at?: Date
 }

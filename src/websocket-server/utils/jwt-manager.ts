@@ -1,6 +1,7 @@
 import { webSocketManager } from '../../main'
 import * as jwt from 'jsonwebtoken'
 import { ClientDto } from './dto/client.dto'
+import { newError } from './error.builder'
 
 class JwtManager {
   getLogged(token: string) {
@@ -15,7 +16,7 @@ class JwtManager {
     try {
       return jwt.verify(token, privateKey) as ClientDto
     } catch {
-      throw new Error('Invalid JWT.')
+      return
     }
   }
 }

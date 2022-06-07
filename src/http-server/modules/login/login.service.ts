@@ -1,13 +1,13 @@
 import { CreateLoginDto } from './dto/login.dto.js'
 import * as jwt from 'jsonwebtoken'
 import { verifyPassword } from '../../utils/bcrypt.js'
-import { User } from '../users/user.entity.js'
+import { User } from '../../../entities/user.entity.js'
 import { userMapper, userService } from '../users/user.module.js'
 
 export class LoginService {
   async login(data: CreateLoginDto) {
     try {
-      const user = await userService.find(data.registry)
+      const user = await userService.findByRegistry(data.registry)
       verifyPassword(data.password, user.password)
       const token = this.generateToken(user)
       return { user, token }

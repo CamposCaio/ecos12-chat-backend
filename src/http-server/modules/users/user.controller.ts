@@ -13,7 +13,7 @@ export class UserController {
 
   async find(req: Request) {
     const registry = req.params.registry
-    const user = await userService.find(registry)
+    const user = await userService.findByRegistry(registry)
     return userMapper.entityToDto(user)
   }
 

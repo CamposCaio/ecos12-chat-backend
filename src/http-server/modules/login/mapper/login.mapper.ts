@@ -1,5 +1,5 @@
 import { plainToInstance } from 'class-transformer'
-import { User } from '../../users/user.entity'
+import { User } from '../../../../entities/user.entity'
 import { CreateLoginDto, LoginDto } from '../dto/login.dto'
 
 export class LoginMapper {
