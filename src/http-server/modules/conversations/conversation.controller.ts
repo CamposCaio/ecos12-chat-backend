@@ -15,11 +15,11 @@ export class ConversationController {
       await conversationMapper.DtoToEntity(conversationDto),
       conversationDto.participantsRegistry
     )
-    return conversationMapper.entityToDto(conversation)
+    return await conversationMapper.entityToDto(conversation)
   }
 
   async findAll(_req: Request) {
     const conversations = await conversationService.findAll()
-    return conversations
+    return await Promise.all(conversations.map(conversationMapper.entityToDto))
   }
 }

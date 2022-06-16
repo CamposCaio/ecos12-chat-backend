@@ -17,12 +17,14 @@ export class ConversationService {
     const savedConversation = await conversationRepository.save(conversation)
     if (!savedConversation) throw new Error('Error while saving conversation.')
 
-    participantsRegistry?.forEach((participantRegistry) => {
-      participantService.createByRegistry(
-        participantRegistry,
+    for (let i = 0; i < participantsRegistry.length; i++) {
+      const participant = await participantService.createByRegistry(
+        participantsRegistry[i],
         savedConversation.id
       )
-    })
+      if (!participant) throw new Error('Error while saving participant.')
+    }
+
     return savedConversation
   }
 

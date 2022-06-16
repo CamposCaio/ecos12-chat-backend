@@ -2,6 +2,7 @@ import { plainToInstance } from 'class-transformer'
 import { Conversation } from '../../../../entities/conversation.entity'
 import { userService } from '../../users/user.module'
 import { ConversationDto, CreateConversationDto } from '../dto/conversation.dto'
+import { participantService } from '../participants/participant.module'
 
 export class ConversationMapper {
   async DtoToEntity(
@@ -16,10 +17,20 @@ export class ConversationMapper {
     return conversation
   }
 
-  entityToDto(conversation: Conversation): ConversationDto {
+  async entityToDto(conversation: Conversation): Promise<ConversationDto> {
+    const participants = await participantService.findByConversation(
+      conversation.id
+    )
+
+    const users = await Promise.all(
+      participants.map((participant) => userService.find(participant.userId))
+    )
+    const participantsRegistry = users.map((user) => user.registry)
+
     return {
+      id: conversation.id,
       title: conversation.title,
-      participants: conversation.participants,
+      participantsRegistry,
       creator: conversation.creator,
     }
   }

@@ -8,9 +8,10 @@ export interface CreateConversationDto {
 }
 
 export interface ConversationDto {
+  id?: string
   creatorRegistry?: string
   title?: string
   participantsRegistry?: string[]
   creator: UserDto
-  participants: ParticipantDto[]
+  participants?: ParticipantDto[]
 }

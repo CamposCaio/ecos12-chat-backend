@@ -3,7 +3,7 @@ import { SyncDto } from './dto/sync.dto'
 import { newError } from '../../utils/error.builder'
 import { webSocketManager } from '../../../main'
 import { jwtManager } from '../../utils/jwt-manager'
-import { messageService } from '../messages/message.module'
+import { messageMapper, messageService } from '../messages/message.module'
 import { conversationService } from '../../../http-server/modules/conversations/conversation.module'
 
 export class SyncService {
@@ -34,7 +34,11 @@ export class SyncService {
         clientId
       )
 
-    const newMessages = await messageService.findByUser(clientId, fromTimestamp)
+    const newMessages = await Promise.all(
+      (
+        await messageService.findByUser(clientId, fromTimestamp)
+      ).map(messageMapper.entityToDto)
+    )
     newMessages.length &&
       webSocketManager.sendMessage(
         JSON.stringify({
