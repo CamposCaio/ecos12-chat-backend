@@ -1,4 +1,5 @@
 import { Conversation } from '../../../entities/conversation.entity'
+import { webSocketManager } from '../../../main'
 import {
   conversationRepository,
   conversationService,
@@ -24,6 +25,11 @@ export class ConversationService {
       )
       if (!participant) throw new Error('Error while saving participant.')
     }
+    participantsRegistry.forEach((registry) => {
+      webSocketManager.sendMessage(JSON.stringify(savedConversation), {
+        receiverRegistry: registry,
+      })
+    })
 
     return savedConversation
   }

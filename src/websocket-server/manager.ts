@@ -11,6 +11,11 @@ interface OnlineClient extends ClientDto {
   token: string
 }
 
+interface TSendMessage {
+  receiverId?: string
+  receiverRegistry?: string
+}
+
 export class WebSocketManager {
   wsServer: WSServer
   appController = new AppController()
@@ -55,10 +60,12 @@ export class WebSocketManager {
     )
   }
 
-  sendMessage(message: string, receiverId: string) {
+  sendMessage(message: string, { receiverId, receiverRegistry }: TSendMessage) {
     if (!message || message === '[]' || message === '{}') return
     this.onlineClients.forEach((onlineClient) => {
       onlineClient.id === receiverId && onlineClient.socket.send(message)
+      onlineClient.registry === receiverRegistry &&
+        onlineClient.socket.send(message)
     })
     // for (let i = 0; i < this.onlineClients.length; i++) {
     //   this.onlineClients[i].id === receiverId &&

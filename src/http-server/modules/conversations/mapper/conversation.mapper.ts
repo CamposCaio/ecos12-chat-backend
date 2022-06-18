@@ -1,6 +1,6 @@
 import { plainToInstance } from 'class-transformer'
 import { Conversation } from '../../../../entities/conversation.entity'
-import { userService } from '../../users/user.module'
+import { userMapper, userService } from '../../users/user.module'
 import { ConversationDto, CreateConversationDto } from '../dto/conversation.dto'
 import { participantService } from '../participants/participant.module'
 
@@ -22,16 +22,19 @@ export class ConversationMapper {
       conversation.id
     )
 
+    !conversation.creator &&
+      (conversation.creator = await userService.find(conversation.creatorId))
+
     const users = await Promise.all(
       participants.map((participant) => userService.find(participant.userId))
     )
     const participantsRegistry = users.map((user) => user.registry)
 
     return {
-      id: conversation.id,
-      title: conversation.title,
+      id: conversation?.id,
+      title: conversation?.title,
       participantsRegistry,
-      creator: conversation.creator,
+      creator: userMapper.entityToDto(conversation?.creator),
     }
   }
 }

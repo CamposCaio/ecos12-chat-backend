@@ -11,9 +11,9 @@ export class UserMapper {
 
   entityToDto(user: User): UserDto {
     return {
-      id: user.id,
-      registry: user.registry,
-      nickname: user.nickname,
+      id: user?.id,
+      registry: user?.registry,
+      nickname: user?.nickname,
     }
   }
 }

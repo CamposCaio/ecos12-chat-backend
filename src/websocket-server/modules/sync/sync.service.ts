@@ -4,7 +4,10 @@ import { newError } from '../../utils/error.builder'
 import { webSocketManager } from '../../../main'
 import { jwtManager } from '../../utils/jwt-manager'
 import { messageMapper, messageService } from '../messages/message.module'
-import { conversationService } from '../../../http-server/modules/conversations/conversation.module'
+import {
+  conversationMapper,
+  conversationService,
+} from '../../../http-server/modules/conversations/conversation.module'
 
 export class SyncService {
   async sync(data: SyncDto, socket: WebSocket) {
@@ -29,9 +32,11 @@ export class SyncService {
       webSocketManager.sendMessage(
         JSON.stringify({
           type: 'conversations',
-          conversations: newConversations,
+          conversations: await Promise.all(
+            newConversations.map(conversationMapper.entityToDto)
+          ),
         }),
-        clientId
+        { receiverId: clientId }
       )
 
     const newMessages = await Promise.all(
@@ -45,7 +50,7 @@ export class SyncService {
           type: 'messages',
           messages: newMessages,
         }),
-        clientId
+        { receiverId: clientId }
       )
   }
 }
