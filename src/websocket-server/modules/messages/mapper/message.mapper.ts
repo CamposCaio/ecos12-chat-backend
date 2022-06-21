@@ -22,12 +22,12 @@ export class MessageMapper {
 
     return {
       type: 'message',
-      id: message.id,
-      senderId: sender.id,
-      senderRegistry: sender.registry,
-      conversationId: message.conversationId,
-      text: message.content,
-      timestamp: Date.now(),
+      id: message?.id,
+      senderId: sender?.id,
+      senderRegistry: sender?.registry,
+      conversationId: message?.conversationId,
+      text: message?.content,
+      timestamp: message?.created_at.getTime(),
     }
   }
 }

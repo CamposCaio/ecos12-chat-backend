@@ -14,7 +14,12 @@ export class SyncService {
     if (!data.token) return newError('The token is required.', 400)
     const clientDto = jwtManager.getPayload(data.token)
     if (!clientDto) return newError('Invalid JWT.', 400)
-    webSocketManager.setOnlineClients(clientDto, socket, data.token)
+    webSocketManager.setOnlineClients(
+      clientDto,
+      socket,
+      data.token,
+      data.userIp
+    )
     console.log(
       'Client connected. Online clients: ',
       webSocketManager

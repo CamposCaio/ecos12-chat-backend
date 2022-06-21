@@ -9,6 +9,7 @@ import { participantService } from '../http-server/modules/conversations/partici
 interface OnlineClient extends ClientDto {
   socket: WebSocket
   token: string
+  userIp: string
 }
 
 interface TSendMessage {
@@ -30,8 +31,13 @@ export class WebSocketManager {
     return this.onlineClients
   }
 
-  setOnlineClients(clientDto: ClientDto, socket: WebSocket, token: string) {
-    this.onlineClients.push({ ...clientDto, socket, token })
+  setOnlineClients(
+    clientDto: ClientDto,
+    socket: WebSocket,
+    token: string,
+    userIp: string
+  ) {
+    this.onlineClients.push({ ...clientDto, socket, token, userIp })
   }
 
   onConnection(socket: WebSocket) {

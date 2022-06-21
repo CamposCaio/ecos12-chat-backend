@@ -1,7 +1,6 @@
 import { webSocketManager } from '../../main'
 import * as jwt from 'jsonwebtoken'
 import { ClientDto } from './dto/client.dto'
-import { newError } from './error.builder'
 
 class JwtManager {
   getLogged(token: string) {

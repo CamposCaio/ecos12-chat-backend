@@ -14,4 +14,5 @@ export interface ConversationDto {
   participantsRegistry?: string[]
   creator: UserDto
   participants?: ParticipantDto[]
+  timestamp?: number
 }

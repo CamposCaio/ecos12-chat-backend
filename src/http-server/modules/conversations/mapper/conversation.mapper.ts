@@ -35,6 +35,7 @@ export class ConversationMapper {
       title: conversation?.title,
       participantsRegistry,
       creator: userMapper.entityToDto(conversation?.creator),
+      timestamp: conversation?.created_at.getTime(),
     }
   }
 }
