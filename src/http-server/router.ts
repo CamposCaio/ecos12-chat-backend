@@ -11,7 +11,7 @@ router.get('/', (_req, res) => {
   res.send({ timestamp: Date.now() })
 })
 router.use('/login', loginRouter)
-router.use(authorizer)
 router.use('/users', userRouter)
+router.use(authorizer)
 router.use('/conversations', conversationRouter)
 router.use('/peer-to-peer', peerToPeerRouter)
