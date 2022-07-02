@@ -5,7 +5,7 @@ import { peerToPeerService } from './peerToPeer.module'
 export class PeerToPeerController {
   constructor(router: Router) {
     router.get('/:registry', route.bind(null, this.getIp))
-    router.post('/', route.bind(null, this.getIp))
+    router.post('/', route.bind(null, this.validate))
   }
 
   async validate(req: Request) {

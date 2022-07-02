@@ -15,7 +15,7 @@ export class PeerToPeerService {
     const token = this.generateToken(clientRegistry, target.userIp)
     return {
       userRegistry: targetRegistry,
-      userIp: target?.userIp,
+      userIp: target.userIp,
       token,
     }
   }

@@ -11,7 +11,7 @@ import {
 
 export class SyncService {
   async sync(data: SyncDto, socket: WebSocket) {
-    if (!data.token) return newError('The token is required.', 400)
+    if (!data.token || !data.userIp) return newError('Invalid DTO.', 400)
     const clientDto = jwtManager.getPayload(data.token)
     if (!clientDto) return newError('Invalid JWT.', 400)
     webSocketManager.setOnlineClients(
